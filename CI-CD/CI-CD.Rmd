@@ -1,0 +1,230 @@
+---
+title: "CI/CD"
+author: "Caleb Scheidel"
+date: "2018/01/25"
+output:
+  xaringan::moon_reader:
+    css: ["mc-xaringan.css", "mc-xaringan-fonts.css"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+layout: true
+background-color: #fafaef
+<div class="my-footer"><img src="mc_logo_rectangle.png" style="height: 30px;"/></div>
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+---
+
+## Overview
+
+- Continuous Integration (CI) vs Continuous Deployment (CD):
+    - *What* does each mean?
+    - *Who* uses it?
+    - *Why* should we use it?
+    - *When* is it useful?
+    - *Where* and *How* can we implement it in our projects?
+
+- Use Cases/Examples 
+    - GitLab CI
+
+---
+
+## Background
+
+- Apps, teams, and infrastructure grow in complexity
+    - results in a complicated software development process
+
+- Need to manage and automate these processes as quickly and consistently as possible
+
+- Incorporating strategies into software development practices can help
+    - Continuous Integration (CI) and Continuous Delivery/Deployment (CD)
+        - All rely on automated tests to determine the efficacy and correctness of each code change
+      
+---
+
+## Workflow
+
+![](https://docs.gitlab.com/ee/ci/img/cicd_pipeline_infograph.png)
+
+---
+
+## Continuous Integration (CI)
+
+- Integrating code into a shared repository
+    - compiles your code on a _per commit_ basis
+    
+- Automated building and testing
+    - allows teams to work on a project together more efficiently
+    - detect bugs earlier
+
+---
+
+## Continuous Delivery/Deployment (CD)
+
+- Continuous Delivery
+    - Automates the steps between checking the code into the repository and deciding whether to release the build
+    - builds to the point that the software can be released to production
+        - does _not_ automatically deploy
+
+- Continuous Deployment
+    - the final step
+    - automatic deployment of each build that passes the full test cycle
+
+---
+
+## CD: Staging vs Production
+
+- Makes the most sense to set up in the blog/shiny app projects
+
+- Why do we need staging?
+    - We want to simulate the production environment to see how our code changes without the end user seeing the changes until they are approved
+
+- Once tests pass and changes are approved in the staging environment, can be automatically pushed to production
+
+---
+
+## Who uses CI/CD?
+
+- Anyone building software
+    - Us!
+        - Building R packages
+        - Creating docker containers
+        - Managing the blog/website
+
+---
+
+## Why should we use CI/CD?
+
+- Makes our life easier
+    - more confidence in our code working properly
+    - can make code review more efficient
+    
+- Automated testing 
+
+---
+
+## When is CI/CD useful?
+
+- Automatic building of docker containers
+
+- Writing R packages
+    - unit tests of functions
+    
+- integration testing of different components of code
+    - test that changes do not break existing functionality
+
+---
+
+## Where/How do we implement CI/CD?
+
+- We already have CI set up!
+    - `groundspeedr` R package
+    - Vardon backtest pipeline
+    - blog
+    
+- Any future projects that involve building docker containers, package building, shiny apps, etc.    
+
+---
+
+## Setting up Gitlab CI
+
+- How to set up Gitlab CI in a project
+    1. add `.gitlab.ci.yml` to the root dir of the repo
+    2. configure the Gitlab project to use a Runner
+        - _Shared Runner_ is easiest
+            - Go to project's __Settings -> CI/CD__ and click __Enable shared runners__
+
+---
+
+## What to look for in GitLab
+    
+- __Pipelines__ page in the project
+    - make sure CI pipeline jobs are passing -> green check mark
+
+- If a job fails, look at the logs!
+
+
+---
+
+## Setting up GitLab CD
+
+- Add configuration to `.gitlab.ci.yml`
+    - add an _environment_
+
+- Environments
+    - like tags for CI jobs, describing where code gets deployed
+    - deployments are created when _jobs_ deploy versions of code to environments
+
+---
+
+## Setting up GitLab CD
+
+- Example: Setting up a _staging environment_
+
+```{}
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+  - master
+```
+
+---
+
+## Setting up GitLab CD
+
+- Example: Setting up a _production environment_
+
+```{}
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+    url: https://example.com
+  when: manual
+  only:
+  - master
+```
+
+- `when: manual`
+    - exposes a play button in GitLab's UI and the `deploy_prod` job will only be triggered if and when we click that button
+        - button can be found in the pipeline, job, environment, and deployment views in GitLab
+
+---
+
+## What to look for in GitLab
+
+- __Pipelines -> Environments__ page
+    - information of the last deployment status of an environment
+    
+    - clicking on the environmnent will show the full history
+        - `Re-deploy` and `Rollback` buttons
+
+---
+
+## GitLab CI/CD Documentation
+
+https://docs.gitlab.com/ce/ci/
+    
+https://docs.gitlab.com/ce/ci/environments.html
+
+
+

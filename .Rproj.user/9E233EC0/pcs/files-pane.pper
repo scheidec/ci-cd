@@ -1,0 +1,9 @@
+{
+    "path" : "~/github/ci-cd",
+    "sortOrder" : [
+        {
+            "ascending" : false,
+            "columnIndex" : 2
+        }
+    ]
+}
