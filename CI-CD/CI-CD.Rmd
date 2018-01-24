@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Overview
 
-- Continuous Integration (CI) vs Continuous Deployment (CD):
+- Continuous Integration (CI) vs Continuous Delivery/Deployment (CD):
     - *What* does each mean?
     - *Who* uses it?
     - *Why* should we use it?
@@ -78,18 +78,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - Continuous Deployment
     - the final step
-    - automatic deployment of each build that passes the full test cycle
+    - automatic deployment of each build that passes the full test cycle to _production_
 
 ---
 
 ## CD: Staging vs Production
 
-- Makes the most sense to set up in the blog/shiny app projects
+- Makes the most sense to set up in any projects where we have a _production_ environment
+    - where a client or general audience will see our work
+        - i.e. shiny apps, blog, website
 
 - Why do we need staging?
     - We want to simulate the production environment to see how our code changes without the end user seeing the changes until they are approved
 
-- Once tests pass and changes are approved in the staging environment, can be automatically pushed to production
+- Once tests pass and changes are approved in the staging environment, can be manually or automatically pushed to production
 
 ---
 
@@ -99,16 +101,17 @@ knitr::opts_chunk$set(echo = TRUE)
     - Us!
         - Building R packages
         - Creating docker containers
-        - Managing the blog/website
+        - Updating the blog/website
+        - shiny apps
 
 ---
 
 ## Why should we use CI/CD?
 
 - Makes our life easier
-    - more confidence in our code working properly
     - can make code review more efficient
-    
+    - more confidence in our code working properly
+
 - Automated testing 
 
 ---
@@ -139,7 +142,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Setting up Gitlab CI
 
 - How to set up Gitlab CI in a project
-    1. add `.gitlab.ci.yml` to the root dir of the repo
+    1. add `.gitlab-ci.yml` to the root dir of the repo
     2. configure the Gitlab project to use a Runner
         - _Shared Runner_ is easiest
             - Go to project's __Settings -> CI/CD__ and click __Enable shared runners__
@@ -153,12 +156,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 - If a job fails, look at the logs!
 
+---
+
+## Gitlab CI Example: `groundspeedr`
+
+- https://gitlab.com/methodsconsultants/groundspeed/groundspeedr
+
+- Check out:
+    - `.gitlab-ci.yml`
+    - Container registry
+    - Pipelines/Jobs
+  
 
 ---
 
 ## Setting up GitLab CD
 
-- Add configuration to `.gitlab.ci.yml`
+- Add configuration to `.gitlab-ci.yml`
     - add an _environment_
 
 - Environments
@@ -170,6 +184,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Setting up GitLab CD
 
 - Example: Setting up a _staging environment_
+    - add this to `.gitlab-ci.yml`:
 
 ```{}
 
@@ -189,6 +204,7 @@ deploy_staging:
 ## Setting up GitLab CD
 
 - Example: Setting up a _production environment_
+    - add this to `.gitlab-ci.yml`:
 
 ```{}
 
@@ -205,7 +221,7 @@ deploy_prod:
 ```
 
 - `when: manual`
-    - exposes a play button in GitLab's UI and the `deploy_prod` job will only be triggered if and when we click that button
+    - exposes a play button in GitLab's UI and the `deploy_prod` job will only be triggered if we click that button
         - button can be found in the pipeline, job, environment, and deployment views in GitLab
 
 ---
@@ -215,8 +231,17 @@ deploy_prod:
 - __Pipelines -> Environments__ page
     - information of the last deployment status of an environment
     
-    - clicking on the environmnent will show the full history
+    - clicking on the environment will show the full history
         - `Re-deploy` and `Rollback` buttons
+
+---
+
+## Gitlab CD Example: `blog`
+
+- https://gitlab.com/methodsconsultants/blog
+
+- Hasn't been set up yet, but imagine setting a setting a staging and production environment
+    - How would we do this?
 
 ---
 
