@@ -34,7 +34,7 @@ knitr::opts_chunk$set(echo = TRUE)
     - *When* is it useful?
     - *Where* and *How* can we implement it in our projects?
 
-- Use Cases/Examples 
+- Examples 
     - GitLab CI
 
 ---
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Background
 
 - Apps, teams, and infrastructure grow in complexity
-    - results in a complicated software development process
+    - software development becomes complicated
 
 - Need to manage and automate these processes as quickly and consistently as possible
 
@@ -118,13 +118,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## When is CI/CD useful?
 
-- Automatic building of docker containers
+- CI
+    - Automatic building of docker containers
 
-- Writing R packages
-    - unit tests of functions
+    - Writing R packages
+        - unit tests of functions
     
-- integration testing of different components of code
-    - test that changes do not break existing functionality
+    - integration testing of different components of code
+        - test that changes do not break existing functionality
+
+- CD
+    - Putting our work into a production environment
 
 ---
 
@@ -142,7 +146,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Setting up Gitlab CI
 
 - How to set up Gitlab CI in a project
+    
     1. add `.gitlab-ci.yml` to the root dir of the repo
+    
     2. configure the Gitlab project to use a Runner
         - _Shared Runner_ is easiest
             - Go to project's __Settings -> CI/CD__ and click __Enable shared runners__
@@ -240,7 +246,7 @@ deploy_prod:
 
 - https://gitlab.com/methodsconsultants/blog
 
-- Hasn't been set up yet, but imagine setting a setting a staging and production environment
+- Hasn't been set up yet, but imagine setting up a staging and production environment
     - How would we do this?
 
 ---
