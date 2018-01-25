@@ -205,6 +205,9 @@ deploy_staging:
   - master
 ```
 
+- `only: master`
+    - only pushes to the master branch will be deployed to the staging environment
+
 ---
 
 ## Setting up GitLab CD
@@ -239,6 +242,7 @@ deploy_prod:
     
     - clicking on the environment will show the full history
         - `Re-deploy` and `Rollback` buttons
+            - `Rollback` relaunches the previous job with the previous commit
 
 ---
 
@@ -248,6 +252,12 @@ deploy_prod:
 
 - Hasn't been set up yet, but imagine setting up a staging and production environment
     - How would we do this?
+
+---
+
+## Alternative CD setup
+
+![](gitlab-cd-setup.png)
 
 ---
 

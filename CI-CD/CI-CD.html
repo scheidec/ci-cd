@@ -206,6 +206,9 @@ deploy_staging:
   - master
 ```
 
+- `only: master`
+    - only pushes to the master branch will be deployed to the staging environment
+
 ---
 
 ## Setting up GitLab CD
@@ -240,6 +243,7 @@ deploy_prod:
     
     - clicking on the environment will show the full history
         - `Re-deploy` and `Rollback` buttons
+            - `Rollback` relaunches the previous job with the previous commit
 
 ---
 
@@ -249,6 +253,12 @@ deploy_prod:
 
 - Hasn't been set up yet, but imagine setting up a staging and production environment
     - How would we do this?
+
+---
+
+## Alternative CD setup
+
+![](gitlab-cd-setup.png)
 
 ---
 
@@ -264,8 +274,15 @@ https://docs.gitlab.com/ce/ci/environments.html
 "highlightLines": true,
 "countIncrementalSlides": false
 });
-if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {window.dispatchEvent(new Event('resize'));});
-(function() {var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler"); if (!r) return; s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }"; d.head.appendChild(s);})();</script>
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
